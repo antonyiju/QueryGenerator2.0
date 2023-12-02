@@ -1,16 +1,22 @@
 package org.example;
+
+import org.json.JSONObject;
+import org.json.JSONArray;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import org.apache.hc.core5.net.URIBuilder;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class scratch {
-    public static void main(String[] args) {}
+    public static void main(String[] args) {
+        String s = "{\"results\":[{\"l_tax\":\"0.00\"},{\"l_tax\":\"0.01\"},{\"l_tax\":\"0.02\"},{\"l_tax\":\"0.03\"},{\"l_tax\":\"0.04\"},{\"l_tax\":\"0.05\"},{\"l_tax\":\"0.06\"},{\"l_tax\":\"0.07\"},{\"l_tax\":\"0.08\"}],\"headers\":[\"l_tax\"]}";
+        JSONObject o = new JSONObject(s);
+        String result = o.getJSONArray("results").get(0).toString();
+        System.out.println(result);
+    }
     public Table getTables(String filter_column,Table[] array){ // Return what table the filter_column belongs to
         String q = "";
         JSONObject result = getOutput(q);
@@ -25,7 +31,7 @@ public class scratch {
     public JSONObject getValues(String filter_column, Table t, Table foreign_table){ // return unique values of filter_column
         String
     }
-    public JSONObject getOutput(String query){
+    public JSONObject getOutput(String q){
         // both the tables and joın columns and fılter column ı get form antony
         String query = "SELECT DISTINCT a.l_tax as c from pg1_sf0001_lineitem as a, pg2_sf0001_orders as b where a.l_orderkey = b.o_orderkey GROUP BY a.l_tax";
         //"SELECT MAX(nation.n_name) AS max_value, MIN(nation.n_name) AS min_value FROM pg3_sf0001_nation as nation, pg1_sf0001_region as region WHERE nation.n_regionkey = region.r_regionkey";
@@ -60,11 +66,11 @@ public class scratch {
                 System.err.println("HTTP PUT request failed with status code: " + responseCode);
                 //return null;
             }
-
             connection.disconnect();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
 }
